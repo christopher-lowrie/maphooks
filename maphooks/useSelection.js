@@ -1,18 +1,45 @@
 import { useEffect, useState, useRef } from "react";
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import generateLayers from "../../layers/layers";
 
-export function useSelection(map, mapLoaded, mapContainer, all_selectable_layers, layerSelectionDependencies) {
+export function useSelection(map, mapLoaded, mapContainer, activeDataset, layerSelectionDependencies) {
 
     const [selectedFeatures, setSelectedFeatures] = useState([])
     const featuresRef = useRef([])
     const [selectionType, setSelectionType] = useState(null)
     const layerSelectionDependenciesRef = useRef([])
+    const [selectableLayers, setSelectableLayers] = useState(
+        Object.values(generateLayers(activeDataset)).flat()
+          .filter(x => x.is_selectable)
+          .map(x => x.id)
+      )
+    const selectableLayersRef = useRef(Object.values(generateLayers(activeDataset)).flat()
+        .filter(x => x.is_selectable)
+        .map(x => x.id)
+    )
+
+    useEffect(() => {
+        console.log(activeDataset)
+        console.log(Object.values(generateLayers(activeDataset)).flat()
+        .filter(x => x.is_selectable)
+        .map(x => x.id))
+        setSelectableLayers(
+            Object.values(generateLayers(activeDataset)).flat()
+              .filter(x => x.is_selectable)
+              .map(x => x.id)
+          )
+    }, [activeDataset])
+
+    useEffect(() => {
+        selectableLayersRef.current = selectableLayers
+    }, [selectableLayers])
 
     useEffect(() => {
         setSelectedFeatures(selectedFeatures.filter(f => f.layer.id === selectionType))
     }, [selectionType])
 
     function setFeatureState_withDependencies(f, state) {
+        console.log('XXX', f)
         map.setFeatureState(
             {
                 source: f.layer.source,
@@ -138,6 +165,7 @@ export function useSelection(map, mapLoaded, mapContainer, all_selectable_layers
 
     useEffect(() => {
         if (!mapLoaded) return
+        console.log(selectableLayers)
         featuresRef.current.forEach(f => {
             if (!selectedFeatures.includes(f)) {
                 setFeatureState_withDependencies(f, false)
@@ -160,7 +188,7 @@ export function useSelection(map, mapLoaded, mapContainer, all_selectable_layers
             ];
             console.log( map.queryRenderedFeatures(bbox))
             var features = map.queryRenderedFeatures(bbox).filter(
-                x => all_selectable_layers.includes(x.layer.id)
+                x => selectableLayersRef.current.includes(x.layer.id)
             );
             return features
         }
@@ -195,6 +223,7 @@ export function useSelection(map, mapLoaded, mapContainer, all_selectable_layers
 
     useEffect(() => {
         layerSelectionDependenciesRef.current = layerSelectionDependencies
+        console.log(layerSelectionDependenciesRef.current)
     }, [layerSelectionDependencies])
 
     useEffect(() => {

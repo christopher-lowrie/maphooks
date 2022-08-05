@@ -86,7 +86,7 @@ class SimpleColorScale {
 }
 
 const BasicStrokes = {
-    width: 1.0,
+    width: 0.05,
     color: 'white',
     opacity: 0.2,
     selected: {
@@ -151,6 +151,57 @@ const _Blue_5Step_0_1 = {
 }
 
 
+const _YlOrRd_5Step = {
+    breaks: [0, 0.02, 0.04, 0.06, 0.08],
+
+    colorRamp: [
+        'rgba(255, 255, 255, 0.05)',
+        '#EEE02F',
+        '#FFAF15',
+        '#FF8315',
+        '#FF5315'
+    ],
+
+    sizeRamp: [5, 10, 15, 20, 25],
+
+    legendScale: 3
+}
+
+const _YlOrRd_5Step_0_60 = {
+    breaks: [0, 10, 20, 40, 60],
+
+    colorRamp: [
+        'rgba(255, 255, 255, 0.05)',
+        '#EEE02F',
+        '#FFAF15',
+        '#FF8315',
+        '#FF5315'
+    ],
+
+    sizeRamp: [5, 10, 15, 20, 25],
+
+    legendScale: 3
+}
+
+
+const _Blue_5Step_Small = {
+    breaks: [0, 0.02, 0.05, 0.08, 0.1],
+
+    colorRamp: [
+        'rgba(255, 255, 255, 0.35)',
+        '#bae4bc',
+        '#7bccc4',
+        '#43a2ca',
+        '#0868ac'
+    ],
+
+    sizeRamp: [5, 10, 15, 20, 25],
+
+    legendScale: 3
+}
+
+
+
 const _Blue_5Step_per_ha = {
     breaks: [0, 1000, 5000, 10000, 100000],
 
@@ -202,6 +253,12 @@ const _Empty = {
 export const Empty = new DiscreteColorSizeScale(_Empty, BasicStrokes)
 
 export const Blue_5Step_0_1 = new DiscreteColorSizeScale(_Blue_5Step_0_1, BasicStrokes)
+
+export const YlOrRd_5Step = new DiscreteColorSizeScale(_YlOrRd_5Step, BasicStrokes)
+
+export const YlOrRd_5Step_0_60 = new DiscreteColorSizeScale(_YlOrRd_5Step_0_60, BasicStrokes)
+
+export const Blue_5Step_Small = new DiscreteColorSizeScale(_Blue_5Step_Small, BasicStrokes)
 
 export const Blue_5Step = new DiscreteColorSizeScale(_Blue_5Step, BasicStrokes)
 

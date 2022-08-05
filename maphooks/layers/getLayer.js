@@ -1,4 +1,8 @@
 export default function getLayers(layer_lookup, key, args, protos) {
+    console.log(layer_lookup)
+    console.log(key)
+    console.log(args)
+    console.log(protos)
     const layers = layer_lookup[key]
 
     if (!layers || !layers[0]) return {
@@ -13,6 +17,13 @@ export default function getLayers(layer_lookup, key, args, protos) {
     ))
     const layers_to_return = layersWithProtos.map(l => l.MBLayer)
     const legends_to_return = layersWithProtos.filter(l => l.display_legend).map(l => l.Legend)
+
+    console.log({
+        legends: legends_to_return,
+        layers: layers_to_return,
+        selectionDependencies: selectionDependencies,
+        subgroups: subgroups
+    })
 
     return {
         legends: legends_to_return,
